@@ -23,4 +23,3 @@ cd ${MAGMA_ROOT}/lte/gateway/docker
 docker-compose build
 
 docker images
-
