@@ -22,4 +22,7 @@ sed -i '65,71d' ${PUBLISH}
 cd ${MAGMA_ROOT}/lte/gateway/docker
 docker-compose build
 
-docker images
+for image in gateway_c gateway_python
+do
+  ${PUBLISH} -r ${REGISTRY} -i ${image} -v ${MAGMA_TAG}
+done
