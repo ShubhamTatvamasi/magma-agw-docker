@@ -26,3 +26,4 @@ for image in gateway_c gateway_python
 do
   ${PUBLISH} -r ${REGISTRY} -i ${image} -v ${MAGMA_TAG}
 done
+
