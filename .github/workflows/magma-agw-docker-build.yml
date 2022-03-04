@@ -1,18 +1,25 @@
 name: magma agw docker build
 
-on:
-  push:
-    branches:
-    - master
+on: [push]
 
 jobs:
   magma-agw-docker-build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
     - uses: docker/login-action@v1 
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-    - run: ./build.sh
+    - run: |
+        git clone https://github.com/magma/magma.git --depth 1
+        cd magma/lte/gateway/docker/
+        docker-compose build
+
+        MAGMA_TAG=$(git rev-parse --short HEAD)
+
+        docker tag agw_gateway_python shubhamtatvamasi/agw_gateway_python:${MAGMA_TAG}
+        docker tag agw_gateway_c shubhamtatvamasi/agw_gateway_c:${MAGMA_TAG}
+
+        docker push shubhamtatvamasi/agw_gateway_python:${MAGMA_TAG}
+        docker push shubhamtatvamasi/agw_gateway_c:${MAGMA_TAG}
