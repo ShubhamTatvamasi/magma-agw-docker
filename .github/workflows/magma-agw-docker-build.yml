@@ -5,6 +5,8 @@ on: [push]
 jobs:
   magma-agw-docker-build:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_BUILDKIT: 1
     steps:
     - uses: docker/login-action@v1 
       with:
@@ -14,7 +16,6 @@ jobs:
     - run: |
         git clone -b arm-agw-docker-build-fix https://github.com/ShubhamTatvamasi/magma.git --depth 1
         cd magma/lte/gateway/docker/
-        export DOCKER_BUILDKIT=1
         docker-compose build
 
         MAGMA_TAG=$(git rev-parse --short HEAD)
